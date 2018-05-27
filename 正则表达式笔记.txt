@@ -1,0 +1,131 @@
+【re.match函数】
+match(pattern，string，flags=0)
+pattern:匹配的正则表达式
+string:要匹配的字符串
+flags:标志位，用于控制正则表达式的匹配方式
+re.I	忽略大小写
+re.L	做本地识别
+re.M	多行匹配，~和$会影响匹配
+re.S	匹配包括换行符在内的所有字符
+re.U	根据Unicode字符集解析字符，影响 \w \b  \B
+re.X	使我们以更灵活的格式理解正则表达式 
+功能：尝试从字符串的起始位置匹配一个模式，
+如果不是起始位置匹配成功的话，返回None
+re.match("www","www.baidu.com")
+...则返回<_sre.SRE_Match object;span=(0,3),match='www'>
+re.match("www","www.baidu.com").span()
+...则返回(0,3)
+
+
+【re.search函数】
+search(pattern，string，flags=0)
+pattern:匹配的正则表达式
+string:要匹配的字符串
+flags:标志位，用于控制正则表达式的匹配方式
+功能：扫描整个字符串，并返回第一个成功的匹配
+re.search("czl","asasca  czl czldvdvv").span()
+...返回(8,11)
+
+
+
+【re.findall】
+findall(pattern，string，flags=0)
+pattern:匹配的正则表达式
+string:要匹配的字符串
+flags:标志位，用于控制正则表达式的匹配方式
+功能：扫描整个字符串，并返回结果列表
+
+
+
+【re.split函数】
+str1="ascac  sdvsdas  s ssa"
+re.split(r" +",str1)
+
+
+【re.finditer函数】
+finditer(pattern，string，flags=0)
+pattern:匹配的正则表达式
+string:要匹配的字符串
+flags:标志位，用于控制正则表达式的匹配方式
+功能：与findall相似，扫描整个字符串，返回的是一个迭代器
+str1="xcsacasdcsczl zldcsacsaclxzlczl"
+d=re.finditer(r'czl',str1)
+while True:
+      try:	
+	l=next(d)
+	print(d)
+      except StopIteration as e:
+	break
+		
+
+【re.sub/subn函数】
+re.sub(pattern, repl, string, count=0, flags=0)
+re.subn(pattern, repl, string, count=0, flags=0)
+pattern:	正则表达式（规则）
+repl：		指定的用来替换的字符串
+string：	目标字符串
+count：		最多替换次数
+功能：在目标字符串中以正则表达式的规则匹配字符串，再把他们替换成指定的字符串。
+可以指定替换的次数，如果不指定，替换所有的匹配字符串
+re.sub返回字符串
+re.subn返回tuple元组，tuple[0]为字符串，tuple[1]为替换次数
+
+
+
+
+【re.compile函数】
+compile(pattern,flags=0)
+pattern:	要编译的正则表达式
+
+pat=r"^1(([3578]\d)|(47))\d{8}$"
+re_telephone=re.compile(pat)
+
+
+.  匹配除换行符以外的任意字符
+[0123456789]	[]是字符集合，表示匹配方括号中所包含的任意一个字符
+[a-z]		匹配任意小写字母
+[A-Z]		匹配任意大写字母
+[0-9]		匹配任意数字，类似[0123456789]
+[0-9a-zA-Z]	匹配任意的数字和字母
+[0-9a-zA-Z_]	匹配任意的字母、数字和下划线
+[^0-9]		匹配所有的非数字字符 ，中括号里的“^” 称为脱字符，表示不匹配集合中的字符
+\d		匹配数字，效果同[0-9]
+\D		匹配非数字字符，效果同[^0-9]
+\w		匹配数字，字母和下划线，效果同[0-9a-zA-Z_]
+\W		匹配非数字，字母和下划线，效果同[^0-9a-zA-Z_]
+\s		匹配任意的空白符(空格，换行，回车，换页，制表),效果同[ \f\n\r\t]
+\S		匹配任意的非空白符，效果同[^ \f\n\r\t]
+
+"^ $"称为锚字符（边界字符）
+^	行首匹配，和在[]里的^不是一个意思
+$	行尾匹配
+\A	匹配字符串开始，它和^的区别是，\A只匹配整体字符串的开头，即使在re.M匹配多行模式下也不会匹配它行的开头
+\Z	匹配字符串结束，它和$的区别是，\Z只匹配整体字符串的结尾，即使在re.M匹配多行模式下也不会匹配它行的结尾
+\b	匹配一个单词的边界，也就是指单词和空格间的位置
+\B	匹配非单词边界
+
+
+
+说明：下方的x,y,z均为假设的普通字符
+(xyz)	匹配小括号内的xyz(作为一个整体去匹配)
+x?	匹配0个或者1个x
+x*	匹配0个或者任意多个x
+x+	匹配至少一个x
+x{n}	匹配确定的n个x(n是个非负数)
+x{n,m}	匹配至少n个最多m个x。n<=m
+
+
+*？ +？ x？ 最小匹配，通常都是尽可能多的匹配，可以解决贪婪匹配
+
+
+()	表示提取分组
+m=re.match(r"(\d{3})-(\d{8})","010-53247654")
+print(m.group(0))
+print(m.group(1))
+print(m.group(2))
+print(m.groups())
+
+m=re.match(r"(?P<frist>\d{3})-(?P<last>\d{8})","010-53247654")
+print(m.group("frist"))
+print(m.group("last"))
+
