@@ -13,9 +13,9 @@
  X代表索引图像矩阵，map为颜色映射表 
 
 （2）图像显示：
+	
 	image(A); 
-	imshow(A);
-
+	
 ### 2. 图像写回 
 	A=imwrite('文件名',文件格式) 
 	[X,map]=imwrite('文件名')
